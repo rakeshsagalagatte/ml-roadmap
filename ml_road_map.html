@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ML Mastery Roadmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --border: #1e1e2e;
+    --accent1: #00ff9d;
+    --accent2: #7c3aed;
+    --accent3: #f59e0b;
+    --accent4: #ef4444;
+    --accent5: #3b82f6;
+    --text: #e2e8f0;
+    --muted: #64748b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,255,157,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,255,157,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .hero {
+    position: relative;
+    z-index: 1;
+    padding: 60px 24px 40px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-tag {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--accent1);
+    border: 1px solid var(--accent1);
+    padding: 4px 12px;
+    border-radius: 2px;
+    margin-bottom: 20px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  .hero h1 {
+    font-size: clamp(32px, 7vw, 72px);
+    font-weight: 800;
+    line-height: 1.05;
+    background: linear-gradient(135deg, #fff 40%, var(--accent1) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 16px;
+  }
+
+  .hero p {
+    color: var(--muted);
+    font-size: 15px;
+    max-width: 500px;
+    margin: 0 auto 24px;
+    line-height: 1.7;
+    font-weight: 400;
+  }
+
+  .stats {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--accent1);
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* Phase tabs */
+  .tabs {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,10,15,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    overflow-x: auto;
+    padding: 0 16px;
+    gap: 0;
+    scrollbar-width: none;
+  }
+
+  .tabs::-webkit-scrollbar { display: none; }
+
+  .tab {
+    flex-shrink: 0;
+    padding: 16px 18px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+    background: none;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+  }
+
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--accent1); border-bottom-color: var(--accent1); }
+
+  /* Main content */
+  .content {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+  }
+
+  .phase {
+    display: none;
+    animation: fadeIn 0.4s ease;
+  }
+
+  .phase.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .phase-header {
+    margin-bottom: 32px;
+    padding: 28px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .phase-header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+
+  .p1 .phase-header::before { background: var(--accent1); }
+  .p2 .phase-header::before { background: var(--accent2); }
+  .p3 .phase-header::before { background: var(--accent3); }
+  .p4 .phase-header::before { background: var(--accent4); }
+  .p5 .phase-header::before { background: var(--accent5); }
+
+  .phase-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+
+  .phase-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 2px;
+    font-weight: 700;
+  }
+
+  .p1 .phase-num { background: rgba(0,255,157,0.15); color: var(--accent1); }
+  .p2 .phase-num { background: rgba(124,58,237,0.15); color: #a78bfa; }
+  .p3 .phase-num { background: rgba(245,158,11,0.15); color: var(--accent3); }
+  .p4 .phase-num { background: rgba(239,68,68,0.15); color: var(--accent4); }
+  .p5 .phase-num { background: rgba(59,130,246,0.15); color: var(--accent5); }
+
+  .phase-duration {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .phase-title {
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+
+  .phase-desc {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* Topic blocks */
+  .topic {
+    margin-bottom: 24px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .topic-head {
+    padding: 16px 20px;
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .topic-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .topic-name {
+    font-size: 15px;
+    font-weight: 600;
+    flex: 1;
+  }
+
+  .topic-toggle {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    transition: transform 0.3s;
+  }
+
+  .topic-body {
+    display: none;
+    padding: 20px;
+    border-top: 1px solid var(--border);
+    background: rgba(18,18,26,0.5);
+  }
+
+  .topic-body.open { display: block; }
+  .topic-toggle.open { transform: rotate(180deg); }
+
+  /* Subtopics */
+  .subtopics {
+    list-style: none;
+    margin-bottom: 20px;
+  }
+
+  .subtopics li {
+    padding: 6px 0;
+    font-size: 14px;
+    color: var(--text);
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.5;
+  }
+
+  .subtopics li::before {
+    content: '▸';
+    color: var(--accent1);
+    flex-shrink: 0;
+    margin-top: 1px;
+    font-size: 12px;
+  }
+
+  /* Resources */
+  .resources-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+  }
+
+  .resources {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .res {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: default;
+    transition: opacity 0.2s;
+  }
+
+  .res-free { background: rgba(0,255,157,0.1); color: var(--accent1); border: 1px solid rgba(0,255,157,0.2); }
+  .res-book { background: rgba(245,158,11,0.1); color: var(--accent3); border: 1px solid rgba(245,158,11,0.2); }
+  .res-course { background: rgba(124,58,237,0.1); color: #a78bfa; border: 1px solid rgba(124,58,237,0.2); }
+  .res-practice { background: rgba(239,68,68,0.1); color: var(--accent4); border: 1px solid rgba(239,68,68,0.2); }
+  .res-tool { background: rgba(59,130,246,0.1); color: var(--accent5); border: 1px solid rgba(59,130,246,0.2); }
+
+  /* Projects section */
+  .projects-box {
+    margin-top: 32px;
+    padding: 24px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--surface);
+  }
+
+  .projects-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--accent1);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+  }
+
+  .project-list {
+    list-style: none;
+    display: grid;
+    gap: 10px;
+  }
+
+  .project-list li {
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .proj-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .easy { background: rgba(0,255,157,0.15); color: var(--accent1); }
+  .mid { background: rgba(245,158,11,0.15); color: var(--accent3); }
+  .hard { background: rgba(239,68,68,0.15); color: var(--accent4); }
+
+  /* Nav buttons */
+  .nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    gap: 12px;
+  }
+
+  .nav-btn {
+    padding: 12px 24px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    background: var(--surface);
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+  }
+
+  .nav-btn:hover { border-color: var(--accent1); color: var(--accent1); }
+  .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  /* Progress bar */
+  .progress-bar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 200;
+    height: 3px;
+    background: var(--border);
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    transition: width 0.4s ease;
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-tag">🚀 Your ML Journey Starts Today</div>
+  <h1>Machine Learning<br>Mastery Roadmap</h1>
+  <p>A structured, end-to-end curriculum — from math fundamentals to deploying real-world ML solutions. Built for engineers who mean business.</p>
+  <div class="stats">
+    <div class="stat"><div class="stat-num">5</div><div class="stat-label">Phases</div></div>
+    <div class="stat"><div class="stat-num">9–12</div><div class="stat-label">Months</div></div>
+    <div class="stat"><div class="stat-num">30+</div><div class="stat-label">Projects</div></div>
+    <div class="stat"><div class="stat-num">∞</div><div class="stat-label">Problems Solvable</div></div>
+  </div>
+</div>
+
+<div class="tabs" id="tabs">
+  <button class="tab active" onclick="switchPhase(0)">① Foundations</button>
+  <button class="tab" onclick="switchPhase(1)">② Core ML</button>
+  <button class="tab" onclick="switchPhase(2)">③ Deep Learning</button>
+  <button class="tab" onclick="switchPhase(3)">④ Specializations</button>
+  <button class="tab" onclick="switchPhase(4)">⑤ Real World</button>
+</div>
+
+<div class="content">
+
+  <!-- PHASE 1 -->
+  <div class="phase p1 active" id="phase-0">
+    <div class="phase-header">
+      <div class="phase-meta">
+        <span class="phase-num">PHASE 01</span>
+        <span class="phase-duration">⏱ 6–8 Weeks</span>
+      </div>
+      <div class="phase-title">Math & Programming Foundations</div>
+      <div class="phase-desc">Everything ML is built on. Skip this and you'll hit a wall. Master it and every algorithm will make sense intuitively.</div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-head" onclick="toggle(this)">
+        <span class="topic-icon">📐</span>
+        <span class="topic-name">Linear Algebra</span>
+        <span class="topic-toggle">▼</span>
+      </div>
+      <div class="topic-body">
+        <ul class="subtopics">
+          <li>Vectors, matrices, tensors — operations and intuition</li>
+          <li>Matrix multiplication, transpose, inverse</li>
+          <li>Dot product, cross product, projections</li>
+          <li>Eigenvalues & eigenvectors (crucial for PCA)</li>
+          <li>SVD — Singular Value Decomposition</li>
+          <li>Norms (L1, L2) and their role in regularization</li>
+        </ul>
+        <div class="resources-title">Resources</div>
+        <div class="resources">
+          <span class="res res-free">📺 3Blue1Brown — Essence of Linear Algebra (YouTube)</span>
+          <span class="res res-course">🎓 MIT 18.06 Linear Algebra (OCW)</span>
+          <span class="res res-book">📘 Mathematics for ML — Deisenroth (free PDF)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-head" onclick="toggle(this)">
+        <span class="topic-icon">📉</span>
+        <span class="topic-name">Calculus & Optimization</span>
+        <span class="topic-toggle">▼</span>
+      </div>
+      <div class="topic-body">
+        <ul class="subtopics">
+          <li>Derivatives, partial derivatives, chain rule</li>
+          <li>Gradient — the direction of steepest ascent/descent</li>
+          <li>Gradient Descent and its variants (SGD, Adam, RMSProp)</li>
+          <li>Backpropagation — the engine of deep learning</li>
+          <li>Convexity and loss landscapes</li>
+        </ul>
+        <div class="resources-title">Resources</div>
+        <div class="resources">
+          <span class="res res-free">📺 3Blue1Brown — Essence of Calculus (YouTube)</span>
+          <span class="res res-course">🎓 Khan Academy — Multivariable Calculus</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-head" onclick="toggle(this)">
+        <span class="topic-icon">🎲</span>
+        <span class="topic-name">Probability & Statistics</span>
+        <span class="topic-toggle">▼</span>
+      </div>
+      <div class="topic-body">
+        <ul class="subtopics">
+          <li>Probability basics — distributions, expectation, variance</li>
+          <li>Bayes' theorem (foundation of Bayesian ML)</li>
+          <li>Normal, Binomial, Poisson distributions</li>
+          <li>Hypothesis testing, p-values, confidence intervals</li>
+          <li>MLE — Maximum Likelihood Estimation</li>
+          <li>Information theory: entropy, KL divergence</li>
+        </ul>
+        <div class="resources-title">Resources</div>
+        <div class="resources">
+          <span class="res res-free">📺 StatQuest with Josh Starmer (YouTube — essential!)</span>
+          <span class="res res-book">📘 Think Stats — Allen Downey (free online)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-head" onclick="toggle(this)">
+        <span class="topic-icon">🐍</span>
+        <span class="topic-name">Python for ML</span>
+        <span class="topic-toggle">▼</span>
+      </div>
+      <div class="topic-body">
+        <ul class="subtopics">
+          <li>Python fundamentals — loops, functions, OOP, list comprehensions</li>
+          <li>NumPy — arrays, broadcasting, vectorized operations</li>
+          <li>Pandas — dataframes, groupby, merging, cleaning</li>
+          <li>Matplotlib & Seaborn — visualizing data</li>
+          <li>Jupyter Notebooks — your daily workspace</li>
+        </ul>
+        <div class="resources-title">Resources</div>
+        <div class="resources">
+          <span class="res res-free">📺 Corey Schafer Python (YouTube)</span>
+          <span class="res res-course">🎓 CS50P — Python (Harvard, free)</span>
+          <span class="res res-practice">⚡ Kaggle Learn — Python + Pandas (free, hands-on)</span>
+          <span class="res res-tool">🔧 Google Colab (free GPU)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="projects-box">
+      <div class="projects-title">⚡ Phase 1 Projects</div>
+      <ul class="project-list">
+        <li><span class="proj-badge easy">EASY</span> Implement gradient descent from scratch in NumPy</li>
+        <li><span class="proj-badge easy">EASY</span> Exploratory Data Analysis on a real dataset (Titanic, Iris)</li>
+        <li><span class="proj-badge mid">MID</span> Build a statistics dashboard with Matplotlib on COVID / agriculture data</li>
+      </ul>
+    </div>
+    <div class="nav-buttons">
+      <button class="nav-btn" disabled>← Previous</button>
+      <button class="nav-btn" onclick="switchPhase(1)">Core ML →</button>
+    </div>
+  </div>
+
+  <!-- PHASE 2 -->
+  <div class="phase p2" id="phase-1">
+    <div class="phase-header">
+      <div class="phase-meta">
+        <span class="phase-num">PHASE 02</span>
+        <span class="phase-duration">⏱ 8–10 Weeks</span>
+      </div>
+      <div class="phase-title">Classical Machine Learning</div>
+      <div class="phase-desc">The bread and butter. These algorithms solve 70% of real-world problems. Master them deeply — don't just call .fit().</div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-head" onclick="toggle(this)">
+        <span class="topic-icon">📊</span>
+        <span class="topic-name">Supervised Learning — Regression</span>
+        <span class="topic-toggle">▼</span>
+      </div>
+      <div class="topic-body">
+        <ul class="subtopics">
+          <li>Linear Regression — OLS, cost function, closed form</li>
+          <li>Polynomial Regression, feature engineering</li>
+          <li>Ridge (L2) & Lasso (L1) regularization</li>
+          <li>Evaluation — MSE, RMSE, R², MAE</li>
+        </ul>
+        <div class="resources-title">Resources</div>
+        <div class="resources">
+          <span class="res res-course">🎓 Andrew Ng ML Specialization — Coursera (START HERE)</span>
+          <span class="res res-free">📺 StatQuest — Linear Regression (YouTube)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-head" onclick="toggle(this)">
+        <span class="topic-icon">🏷️</span>
+        <span class="topic-name">Supervised Learning — Classification</span>
+        <span class="topic-toggle">▼</span>
+      </div>
+      <div class="topic-body">
+        <ul class="subtopics">
+          <li>Logistic Regression — sigmoid, cross-entropy loss</li>
+          <li>Decision Trees — splitting criteria, depth, pruning</li>
+          <li>Random Forest — bagging, feature importance</li>
+          <li>Gradient Boosting — XGBoost, LightGBM, CatBoost</li>
+          <li>Support Vector Machines — kernel trick, margins</li>
+          <li>K-Nearest Neighbors</li>
+          <li>Evaluation — confusion matrix, precision, recall, F1, ROC-AUC</li>
+        </ul>
+        <div class="resources-title">Resources</div>
+        <div class="resources">
+          <span class="res res-course">🎓 Andrew Ng ML Specialization (continued)</span>
+          <span class="res res-free">📺 StatQuest — Trees, Boosting series (YouTube)</span>
+          <span class="res res-book">📘 Hands-On ML — Aurélien Géron (must-read)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-head" onclick="toggle(this)">
+        <span class="topic-icon">🔍</span>
+        <span class="topic-name">Unsupervised Learning</span>
+        <span class="topic-toggle">▼</span>
+      </div>
+      <div class="topic-body">
+        <ul class="subtopics">
+          <li>K-Means clustering — choosing K, inertia, elbow method</li>
+          <li>DBSCAN — density-based clustering</li>
+          <li>Hierarchical clustering</li>
+          <li>PCA — dimensionality reduction, explained variance</li>
+          <li>t-SNE & UMAP — visualization of high-dim data</li>
+          <li>Anomaly detection basics</li>
+        </ul>
+        <div class="resources-title">Resources</div>
+        <div class="resources">
+          <span class="res res-free">📺 StatQuest — PCA, Clustering (YouTube)</span>
+          <span class="res res-practice">⚡ Kaggle datasets — customer segmentation</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-head" onclick="toggle(this)">
+        <span class="topic-icon">🔧</span>
+        <span class="topic-name">ML Engineering Essentials</span>
+        <span class="topic-toggle">▼</span>
+      </div>
+      <div class="topic-body">
+        <ul class="subtopics">
+          <li>Train / Validation / Test splits — no data leakage!</li>
+          <li>Cross-validation — k-fold, stratified k-fold</li>
+          <li>Hyperparameter tuning — GridSearch, RandomSearch, Optuna</li>
+          <li>Feature engineering, scaling, encoding categorical vars</li>
+          <li>Handling imbalanced datasets — SMOTE, class weights</li>
+          <li>Pipelines with scikit-learn</li>
+        </ul>
+        <div class="resources-title">Resources</div>
+        <div class="resources">
+          <span class="res res-book">📘 Hands-On ML — Géron (chapters 2–3)</span>
+          <span class="res res-tool">🔧 Scikit-learn docs + user guide (excellent)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="projects-box">
+      <div class="projects-title">⚡ Phase 2 Projects</div>
+      <ul class="project-list">
+        <li><span class="proj-badge easy">EASY</span> House price prediction (regression end-to-end)</li>
+        <li><span class="proj-badge easy">EASY</span> Crop yield / disease classification using tabular data</li>
+        <li><span class="proj-badge mid">MID</span> Customer churn prediction with full ML pipeline</li>
+        <li><span class="proj-badge mid">MID</span> Kaggle competition — Titanic or House Prices</li>
+        <li><span class="proj-badge hard">HARD</span> XGBoost model with Optuna tuning on a real business dataset</li>
+      </ul>
+    </div>
+    <div class="nav-buttons">
+      <button class="nav-btn" onclick="switchPhase(0)">← Foundations</button>
+      <button class="nav-btn" onclick="switchPhase(2)">Deep Learning →</button>
+    </div>
+  </div>
+
+  <!-- PHASE 3 -->
+  <div class="phase p3" id="phase-2">
+    <div class="phase-header">
+      <div class="phase-meta">
+        <span class="phase-num">PHASE 03</span>
+        <span class="phase-duration">⏱ 8–10 Weeks</span>
+      </div>
+      <div class="phase-title">Deep Learning</div>
+      <div class="phase-desc">Neural networks, the technology behind modern AI. You'll build systems that see, read, and predict like never before.</div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-head" onclick="toggle(this)">
+        <span class="topic-icon">🧠</span>
+        <span class="topic-name">Neural Network Fundamentals</span>
+        <span class="topic-toggle">▼</span>
+      </div>
+      <div class="topic-body">
+        <ul class="subtopics">
+          <li>Perceptron, activation functions — ReLU, sigmoid, tanh, softmax</li>
+          <li>Forward pass, backpropagation from scratch</li>
+          <li>Loss functions — cross-entropy, MSE, Huber</li>
+          <li>Optimizers — SGD, Adam, AdaGrad</li>
+          <li>Batch normalization, dropout, regularization</li>
+          <li>Learning rate schedules</li>
+        </ul>
+        <div class="resources-title">Resources</div>
+        <div class="resources">
+          <span class="res res-course">🎓 fast.ai — Practical Deep Learning (free, top-down)</span>
+          <span class="res res-course">🎓 Deep Learning Specialization — Andrew Ng (Coursera)</span>
+          <span class="res res-free">📺 Andrej Karpathy — Neural Nets: Zero to Hero (YouTube)</span>
+          <span class="res res-tool">🔧 PyTorch (learn this, not TensorFlow first)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-head" onclick="toggle(this)">
+        <span class="topic-icon">👁️</span>
+        <span class="topic-name">Computer Vision (CNNs)</span>
+        <span class="topic-toggle">▼</span>
+      </div>
+      <div class="topic-body">
+        <ul class="subtopics">
+          <li>Convolutional layers, pooling, receptive field</li>
+          <li>CNN architectures — LeNet, VGG, ResNet, EfficientNet</li>
+          <li>Transfer learning & fine-tuning (biggest practical skill)</li>
+          <li>Object detection — YOLO, Faster R-CNN basics</li>
+          <li>Image segmentation — U-Net</li>
+          <li>Data augmentation strategies</li>
+        </ul>
+        <div class="resources-title">Resources</div>
+        <div class="resources">
+          <span class="res res-course">🎓 fast.ai Part 1 (computer vision chapters)</span>
+          <span class="res res-book">📘 Deep Learning with Python — François Chollet</span>
+          <span class="res res-practice">⚡ Roboflow — datasets for vision tasks</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-head" onclick="toggle(this)">
+        <span class="topic-icon">📝</span>
+        <span class="topic-name">NLP & Transformers</span>
+        <span class="topic-toggle">▼</span>
+      </div>
+      <div class="topic-body">
+        <ul class="subtopics">
+          <li>Text preprocessing — tokenization, embeddings (Word2Vec, GloVe)</li>
+          <li>RNNs & LSTMs — sequence modeling, vanishing gradient</li>
+          <li>Attention mechanism — intuition and math</li>
+          <li>Transformers — encoder, decoder, self-attention (read "Attention Is All You Need")</li>
+          <li>BERT, GPT family — how they work</li>
+          <li>HuggingFace 🤗 — fine-tuning pre-trained models</li>
+          <li>Prompt engineering basics</li>
+        </ul>
+        <div class="resources-title">Resources</div>
+        <div class="resources">
+          <span class="res res-free">📺 Andrej Karpathy — GPT from scratch (YouTube, legendary)</span>
+          <span class="res res-course">🎓 HuggingFace NLP Course (free, practical)</span>
+          <span class="res res-book">📘 Natural Language Processing with Transformers — Tunstall et al.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="projects-box">
+      <div class="projects-title">⚡ Phase 3 Projects</div>
+      <ul class="project-list">
+        <li><span class="proj-badge easy">EASY</span> Image classifier — plant disease detection (relevant to Karnataka agriculture!)</li>
+        <li><span class="proj-badge mid">MID</span> Sentiment analysis on product reviews using BERT</li>
+        <li><span class="proj-badge mid">MID</span> Object detection model for real-world use case</li>
+        <li><span class="proj-badge hard">HARD</span> Fine-tune an LLM for a domain-specific Q&A chatbot</li>
+      </ul>
+    </div>
+    <div class="nav-buttons">
+      <button class="nav-btn" onclick="switchPhase(1)">← Core ML</button>
+      <button class="nav-btn" onclick="switchPhase(3)">Specializations →</button>
+    </div>
+  </div>
+
+  <!-- PHASE 4 -->
+  <div class="phase p4" id="phase-3">
+    <div class="phase-header">
+      <div class="phase-meta">
+        <span class="phase-num">PHASE 04</span>
+        <span class="phase-duration">⏱ 4–6 Weeks (pick 1–2 tracks)</span>
+      </div>
+      <div class="phase-title">Specializations</div>
+      <div class="phase-desc">Go deep in the areas most relevant to your goals. You don't need all of these — pick what matches your ambitions.</div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-head" onclick="toggle(this)">
+        <span class="topic-icon">⏰</span>
+        <span class="topic-name">Time Series & Forecasting</span>
+        <span class="topic-toggle">▼</span>
+      </div>
+      <div class="topic-body">
+        <ul class="subtopics">
+          <li>ARIMA, SARIMA — classical forecasting</li>
+          <li>Feature engineering for time series (lag features, rolling stats)</li>
+          <li>Prophet — Facebook's forecasting library</li>
+          <li>LSTM for sequence prediction</li>
+          <li>Evaluation — MAE, MAPE, SMAPE</li>
+        </ul>
+        <div class="resources-title">Resources</div>
+        <div class="resources">
+          <span class="res res-practice">⚡ Kaggle — M5 Forecasting competition</span>
+          <span class="res res-free">📺 Rob J Hyndman — Forecasting (free book online)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-head" onclick="toggle(this)">
+        <span class="topic-icon">🎮</span>
+        <span class="topic-name">Reinforcement Learning</span>
+        <span class="topic-toggle">▼</span>
+      </div>
+      <div class="topic-body">
+        <ul class="subtopics">
+          <li>MDP — Markov Decision Processes</li>
+          <li>Q-Learning, Deep Q-Networks (DQN)</li>
+          <li>Policy gradient methods — PPO, A3C</li>
+          <li>OpenAI Gym — training environments</li>
+        </ul>
+        <div class="resources-title">Resources</div>
+        <div class="resources">
+          <span class="res res-book">📘 Sutton & Barto — RL: An Introduction (free PDF)</span>
+          <span class="res res-course">🎓 Hugging Face RL Course (free)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-head" onclick="toggle(this)">
+        <span class="topic-icon">🌾</span>
+        <span class="topic-name">ML for Agriculture & Energy (Your Edge)</span>
+        <span class="topic-toggle">▼</span>
+      </div>
+      <div class="topic-body">
+        <ul class="subtopics">
+          <li>Crop disease detection via image classification (CNNs)</li>
+          <li>Yield prediction — regression on soil/weather data</li>
+          <li>Solar irradiance forecasting for energy systems</li>
+          <li>IoT sensor data analysis with ML</li>
+          <li>Anomaly detection for equipment fault prediction</li>
+          <li>Geospatial ML — satellite imagery with NDVI</li>
+        </ul>
+        <div class="resources-title">Resources</div>
+        <div class="resources">
+          <span class="res res-free">📺 PlantVillage Dataset (plant disease detection)</span>
+          <span class="res res-practice">⚡ ICAR open datasets — Indian agriculture</span>
+          <span class="res res-tool">🔧 Google Earth Engine (geospatial ML, free)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="projects-box">
+      <div class="projects-title">⚡ Phase 4 Projects</div>
+      <ul class="project-list">
+        <li><span class="proj-badge mid">MID</span> Solar output forecasting using weather data (direct application!)</li>
+        <li><span class="proj-badge mid">MID</span> Crop disease classifier deployable on mobile (for farmers)</li>
+        <li><span class="proj-badge hard">HARD</span> End-to-end forecasting system for agri-commodity prices</li>
+      </ul>
+    </div>
+    <div class="nav-buttons">
+      <button class="nav-btn" onclick="switchPhase(2)">← Deep Learning</button>
+      <button class="nav-btn" onclick="switchPhase(4)">Real World →</button>
+    </div>
+  </div>
+
+  <!-- PHASE 5 -->
+  <div class="phase p5" id="phase-4">
+    <div class="phase-header">
+      <div class="phase-meta">
+        <span class="phase-num">PHASE 05</span>
+        <span class="phase-duration">⏱ Ongoing</span>
+      </div>
+      <div class="phase-title">Real World ML & Deployment</div>
+      <div class="phase-desc">This is where most tutorials stop — and where real engineers begin. Building a model is 20% of the job. The rest is making it work in the real world.</div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-head" onclick="toggle(this)">
+        <span class="topic-icon">🚀</span>
+        <span class="topic-name">MLOps & Model Deployment</span>
+        <span class="topic-toggle">▼</span>
+      </div>
+      <div class="topic-body">
+        <ul class="subtopics">
+          <li>FastAPI / Flask — wrap your model as a REST API</li>
+          <li>Docker — containerize your ML app</li>
+          <li>Cloud deployment — AWS/GCP/Azure basics (use free tiers)</li>
+          <li>Model monitoring — data drift, concept drift</li>
+          <li>MLflow — experiment tracking, model registry</li>
+          <li>CI/CD for ML pipelines</li>
+        </ul>
+        <div class="resources-title">Resources</div>
+        <div class="resources">
+          <span class="res res-free">📺 Made With ML (madewithml.com — free MLOps course)</span>
+          <span class="res res-course">🎓 Full Stack Deep Learning (free)</span>
+          <span class="res res-tool">🔧 Streamlit — fastest way to demo ML apps</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-head" onclick="toggle(this)">
+        <span class="topic-icon">🔬</span>
+        <span class="topic-name">Explainability & Responsible ML</span>
+        <span class="topic-toggle">▼</span>
+      </div>
+      <div class="topic-body">
+        <ul class="subtopics">
+          <li>SHAP values — why did the model predict X?</li>
+          <li>LIME — local interpretable explanations</li>
+          <li>Bias detection and fairness metrics</li>
+          <li>Model cards — communicating model behavior</li>
+        </ul>
+        <div class="resources-title">Resources</div>
+        <div class="resources">
+          <span class="res res-book">📘 Interpretable ML — Christoph Molnar (free online)</span>
+          <span class="res res-tool">🔧 SHAP library (GitHub)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-head" onclick="toggle(this)">
+        <span class="topic-icon">💼</span>
+        <span class="topic-name">Portfolio & Problem-Solving System</span>
+        <span class="topic-toggle">▼</span>
+      </div>
+      <div class="topic-body">
+        <ul class="subtopics">
+          <li>Framework for attacking any new ML problem (define → data → baseline → iterate)</li>
+          <li>GitHub — document all projects with READMEs</li>
+          <li>Kaggle competitions — consistent practice</li>
+          <li>Technical writing — blog your learnings (Medium, Substack)</li>
+          <li>Build a Streamlit/Gradio demo for each project</li>
+          <li>Network: Twitter/X ML community, LinkedIn, local meetups</li>
+        </ul>
+        <div class="resources-title">Resources</div>
+        <div class="resources">
+          <span class="res res-practice">⚡ Kaggle Competitions — ongoing</span>
+          <span class="res res-tool">🔧 Gradio — instant ML demos in Python</span>
+          <span class="res res-free">📺 Yannic Kilcher — paper reviews (YouTube)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="projects-box">
+      <div class="projects-title">⚡ Capstone Projects — Build These</div>
+      <ul class="project-list">
+        <li><span class="proj-badge hard">HARD</span> Full ML SaaS: model + API + frontend + deployed to cloud</li>
+        <li><span class="proj-badge hard">HARD</span> Solar energy prediction system with live weather data + dashboard</li>
+        <li><span class="proj-badge hard">HARD</span> Agricultural advisory chatbot using fine-tuned LLM + RAG</li>
+        <li><span class="proj-badge hard">HARD</span> Automated ML pipeline (data in → predictions out, no manual steps)</li>
+      </ul>
+    </div>
+
+    <div style="margin-top:28px; padding:24px; border:1px solid rgba(0,255,157,0.2); border-radius:4px; background: rgba(0,255,157,0.04);">
+      <div style="font-family:'Space Mono',monospace; font-size:11px; color:var(--accent1); text-transform:uppercase; letter-spacing:2px; margin-bottom:12px;">🎯 Golden Rule</div>
+      <p style="color:var(--text); font-size:15px; line-height:1.7;">For any new problem: <strong>Define the objective clearly → Understand the data → Build a simple baseline → Iterate → Deploy → Monitor.</strong> This framework works for 100% of ML problems. Mastery is running this loop faster and with better judgment each time.</p>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="nav-btn" onclick="switchPhase(3)">← Specializations</button>
+      <button class="nav-btn" disabled>You're equipped. Build! →</button>
+    </div>
+  </div>
+
+</div>
+
+<div class="progress-bar">
+  <div class="progress-fill" id="progress" style="width:20%"></div>
+</div>
+
+<script>
+  let current = 0;
+  const total = 5;
+  const phases = document.querySelectorAll('.phase');
+  const tabBtns = document.querySelectorAll('.tab');
+  const progress = document.getElementById('progress');
+
+  function switchPhase(idx) {
+    phases[current].classList.remove('active');
+    tabBtns[current].classList.remove('active');
+    current = idx;
+    phases[current].classList.add('active');
+    tabBtns[current].classList.add('active');
+    progress.style.width = ((idx + 1) / total * 100) + '%';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // scroll tab into view
+    tabBtns[current].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  }
+
+  function toggle(head) {
+    const body = head.nextElementSibling;
+    const arrow = head.querySelector('.topic-toggle');
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    arrow.classList.toggle('open', !isOpen);
+  }
+</script>
+</body>
+</html>
